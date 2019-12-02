@@ -1,0 +1,25 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+requests = "*"
+numpy = "*"
+scipy = "*"
+matplotlib = "*"
+ipython = "*"
+jupyter = "*"
+pandas = "*"
+sympy = "*"
+nose = "*"
+networkx = "*"
+
+[requires]
+python_version = "3.8"
+
+[scripts]
+day = "python -m solutions --solve"
+create = "python -m solutions --create"
