@@ -1,6 +1,6 @@
 # Advent of Code 2019 - My Solutions
 
-[!https://raw.githubusercontent.com/python-discord/branding/master/logos/logo_seasonal/christmas/2019/banner.png]
+![Python Discord - Advent Of Code](https://raw.githubusercontent.com/python-discord/branding/master/logos/logo_seasonal/christmas/2019/banner.png)
 
 This repository contains my solutions to the [Advent of Code 2019](https://adventofcode.com/2019/). For those unfamiliar with the Advent of Code, it is an Advent calendar of programming puzzles for a variety of skill sets and skill levels that can be solved in any programming language. As I'm quite active in an [online Python community](https://pythondiscord.com), I've picked [Python](https://www.python.org/) to solve the puzzles.
 
