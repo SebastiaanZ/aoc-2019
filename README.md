@@ -30,3 +30,24 @@ To make it easier to run this command using a `pipenv` virtual environment, I've
 ```
 pipenv run day [day]
 ```
+
+## Advanced usage
+
+### Creating a solution directory
+You can also use the `solutions` package to create an empty solution folder for a given day based on the template directory located in the `solutions/templates` subdirectory. The command line arguments to do that are:
+
+```
+python -m solutions --create [day]
+```
+
+There's also a `pipenv` shortcut script:
+
+```py
+pipenv run create [day]
+```
+
+### Automatically download the input data
+
+When running the solution using `python -m solutions --solve [day]`, the `get_data` function in `solutions.data` can also download the input data for you from the Advent of Code website. For this to work, you need to set the value of your session cookie for the Advent of Code website as the environment variable `AOC_SESSION`. 
+
+Note: The `get_data` function will only download your input data once to limit the number of requests to the Advent of Code website. The data gets stored in a text file located in the `solutions/data` subdirectory and the cached data will be returned on subsequent calls. If you want to force the `get_data` function to bypass this cache and download the data again, specify `use_cache=False` in the function call. 
