@@ -3,7 +3,7 @@ import importlib
 import itertools
 import logging
 import operator
-from typing import Callable, List
+from typing import Callable, List, Tuple
 
 log = logging.getLogger(__name__)
 
@@ -47,7 +47,7 @@ def part_two(data: List[int]) -> int:
             return 100 * noun + verb
 
 
-def main(data: List[str]) -> None:
+def main(data: List[str]) -> Tuple[int]:
     """The main function taking care of parsing the input data and running the solutions."""
     op_codes = data[0].split(",")
     data = [int(number) for number in op_codes]

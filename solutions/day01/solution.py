@@ -1,5 +1,5 @@
 import itertools
-from typing import List
+from typing import List, Tuple
 
 
 def _fuel_requirement(mass: int) -> int:
@@ -24,7 +24,7 @@ def part_two(data: List[int]) -> int:
     return sum(sum(itertools.takewhile(lambda fuel: fuel > 0, _module_fuel(mass))) for mass in data)
 
 
-def main(data: List[str]) -> None:
+def main(data: List[str]) -> Tuple[int]:
     data = [int(number) for number in data]
     answer_one = part_one(data)
     answer_two = part_two(data)
