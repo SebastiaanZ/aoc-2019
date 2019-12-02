@@ -5,32 +5,32 @@ import logging
 import operator
 from typing import Callable, List, Tuple
 
-log = logging.getLogger(__name__)
 
-
-def _math(a: int, b: int, destination: int, data: List[int], operation: Callable) -> None:
+def cpu_operation(a: int, b: int, destination: int, data: List[int], operation: Callable) -> None:
     """Uses operation on numbers `a` and `b` and stores the result at `destination` in `data`."""
     data[destination] = operation(a, b)
+
+
+COMPUTER_OPERATIONS = {
+    1: functools.partial(cpu_operation, operation=operator.add),
+    2: functools.partial(cpu_operation, operation=operator.mul),
+}
 
 
 def ship_computer(data: List[int], noun: int, verb: int) -> int:
     """The computer of my space ship, processing the intcodes in `data`."""
     data = list(data)
 
-    operations = {
-        1: functools.partial(_math, operation=operator.add),
-        2: functools.partial(_math, operation=operator.mul),
-    }
-    op_code = iter(data)
-
     data[1] = noun
     data[2] = verb
 
-    while (operation := next(op_code)) != 99:
-        a = data[next(op_code)]
-        b = data[next(op_code)]
-        destination = next(op_code)
-        operations[operation](a, b, destination, data=data)
+    operation_code = iter(data)
+
+    while (operation := next(operation_code)) != 99:
+        a = data[next(operation_code)]
+        b = data[next(operation_code)]
+        destination = next(operation_code)
+        COMPUTER_OPERATIONS[operation](a, b, destination, data=data)
     return data[0]
 
 
