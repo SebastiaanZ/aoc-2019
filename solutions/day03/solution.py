@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import collections
 import enum
+from itertools import product
 from typing import List, NamedTuple, Optional, Tuple
 
 
@@ -86,11 +87,10 @@ def draw_lines(wire: List[str]) -> List[Line]:
 
 
 def find_intersections(data: List[List[Line]]) -> List[Intersection]:
-    """Find the intersections between line segments in both lists."""
-    wire_one, wire_two = data
+    """Find the intersections between line segments in both wire lists."""
     origin = Point(0, 0)
     intersections = [
-        intersection for a in wire_one for b in wire_two
+        intersection for a, b in product(*data)
         if (intersection := a.intersection(b)) and intersection.location != origin  # noqa
     ]
     return intersections
