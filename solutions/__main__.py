@@ -18,6 +18,14 @@ parser.add_argument(
     choices=range(1, 26),
     help='an integer representing the day'
 )
+parser.add_argument(
+    '-t',
+    '--timeit',
+    dest="timeit",
+    type=int,
+    metavar="NUMBER",
+    help="test the solution using timeit with NUMBER iterations",
+)
 action_group = parser.add_mutually_exclusive_group(required=True)
 action_group.add_argument(
     '-c',
@@ -67,9 +75,23 @@ if args.solve:
         log.error(f"Can't run solution for day {args.day} as it does not exist yet!")
     else:
         day = importlib.import_module(f"solutions.day{args.day:0>2d}")
-        time_prior = timeit.default_timer()
-        answer_one, answer_two = day.main(get_data(day=args.day))
-        time_after = timeit.default_timer()
-        print(f"Answer to part one: {answer_one}")
-        print(f"Answer to part two: {answer_two}")
-        print(f"Total running time: {time_after - time_prior:.6f} seconds")
+        if args.timeit:
+            execution_times = []
+            for _ in range(args.timeit):
+                time_prior = timeit.default_timer()
+                answer_one, answer_two = day.main(get_data(day=args.day))
+                time_after = timeit.default_timer()
+                execution_times.append(time_after - time_prior)
+
+            print(f"Answer to part one: {answer_one}")
+            print(f"Answer to part two: {answer_two}")
+
+            average_time = sum(execution_times) / len(execution_times)
+            print(f"Average running time: {average_time:.6f} seconds ({args.timeit} iterations)")
+        else:
+            time_prior = timeit.default_timer()
+            answer_one, answer_two = day.main(get_data(day=args.day))
+            time_after = timeit.default_timer()
+            print(f"Answer to part one: {answer_one}")
+            print(f"Answer to part two: {answer_two}")
+            print(f"Total running time: {time_after - time_prior:.6f} seconds")
