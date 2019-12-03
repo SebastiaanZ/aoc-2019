@@ -11,7 +11,14 @@ class Orientation(enum.IntEnum):
 
 
 Move = collections.namedtuple("Move", ("direction", "distance"))
-Intersection = collections.namedtuple("Intersection", "location steps_wire_one steps_wire_two")
+Intersection = collections.namedtuple("Intersection", "location steps")
+
+MOVEMENT = {
+    "U": lambda start, dist: Point(start.x, start.y + dist),
+    "R": lambda start, dist: Point(start.x + dist, start.y),
+    "D": lambda start, dist: Point(start.x, start.y - dist),
+    "L": lambda start, dist: Point(start.x - dist, start.y),
+}
 
 
 class Point(NamedTuple):
@@ -32,11 +39,11 @@ class Point(NamedTuple):
 
 
 class Line:
-    def __init__(self, start: Point, end: Point, start_steps: int):
+    def __init__(self, start: Point, end: Point, steps: int):
         self.start = start
         self.end = end
         self.orientation = Orientation.HORIZONTAL if start.y == end.y else Orientation.VERTICAL
-        self.start_steps = start_steps
+        self.steps = steps
 
     def intersection(self, other: Line) -> Optional[Intersection]:
         """Return the intersection with `other` if it exists; otherwiser return `None`."""
@@ -54,8 +61,7 @@ class Line:
 
             return Intersection(
                 location,
-                self.start_steps + (self.start @ location),
-                other.start_steps + (other.start @ location),
+                self.steps + (self.start @ location) + other.steps + (other.start @ location),
             )
 
     def __repr__(self) -> str:
@@ -65,20 +71,13 @@ class Line:
 
 def draw_lines(wire: List[str]) -> List[Line]:
     """Create the line segments that make up a wire."""
-    move_point = {
-        "U": lambda start, dist: Point(start.x, start.y + dist),
-        "R": lambda start, dist: Point(start.x + dist, start.y),
-        "D": lambda start, dist: Point(start.x, start.y - dist),
-        "L": lambda start, dist: Point(start.x - dist, start.y),
-    }
-
     moves = [Move(direction, int(''.join(distance))) for direction, *distance in wire.split(',')]
 
     location = Point(0, 0)
     steps = 0
     lines = []
     for move in moves:
-        new_location = move_point[move.direction](location, move.distance)
+        new_location = MOVEMENT[move.direction](location, move.distance)
         lines.append(Line(location, new_location, steps))
         steps += move.distance
         location = new_location
@@ -105,7 +104,7 @@ def part_one(intersections: List[Intersection]) -> int:
 
 def part_two(intersections: List[Intersection]) -> int:
     """Find the intersection closest to the origin in terms of the number of steps taken."""
-    return min(i.steps_wire_one + i.steps_wire_two for i in intersections)
+    return min(i.steps for i in intersections)
 
 
 def main(data: List[str]) -> Tuple[int]:
