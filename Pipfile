@@ -4,6 +4,9 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+flake8-import-order = "*"
+flake8-tidy-imports = "*"
+pyflakes = {git = "https://github.com/PyCQA/pyflakes.git",ref = "1911c203a13826d2eb03d582d60874b91e36f4fc"}
 
 [packages]
 requests = "*"
