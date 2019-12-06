@@ -26,6 +26,14 @@ parser.add_argument(
     metavar="NUMBER",
     help="test the solution using timeit with NUMBER iterations",
 )
+parser.add_argument(
+    '-a',
+    '--alternative',
+    dest="alternative",
+    type=str,
+    metavar="IMPORT_NAME",
+    help="run an alternative solution for a day",
+)
 action_group = parser.add_mutually_exclusive_group(required=True)
 action_group.add_argument(
     '-c',
@@ -74,7 +82,11 @@ if args.solve:
     if not DAY_PATH.exists():
         log.error(f"Can't run solution for day {args.day} as it does not exist yet!")
     else:
-        day = importlib.import_module(f"solutions.day{args.day:0>2d}")
+        import_path = f"solutions.day{args.day:0>2d}"
+        if args.alternative:
+            import_path += f".{args.alternative}"
+        day = importlib.import_module(import_path)
+
         if args.timeit:
             execution_times = []
             for _ in range(args.timeit):
