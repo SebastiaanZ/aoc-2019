@@ -58,36 +58,33 @@ def _setup_apps_part_two(applications: List[IntCodeApplication]) -> List[IntCode
 
 
 def run_phase_configuration(phases: Tuple[int], data: List[int], setup: Callable) -> int:
-    """Run a single phase configuration and return the output signal."""
-
+    """Run the amps with a single phase configuration and return the final signal strength."""
     applications = _create_applications(phases, data)
-
     applications = setup(applications)
-
     applications = _run_applications(applications)
 
     return applications[-1].stdout.get()
 
 
 def part_one(data: List[int]) -> int:
-    """Part one of today's Advent of Code puzzle."""
+    """Find the maximum single strength after chaining together the amps."""
     run_phase = functools.partial(run_phase_configuration, data=data, setup=_setup_apps_part_one)
     with concurrent.futures.ProcessPoolExecutor() as executor:
         signal_strength = executor.map(run_phase, itertools.permutations(range(5), 5))
 
-    return(max(signal_strength))
+    return max(signal_strength)
 
 
 def part_two(data: List[int]) -> int:
-    """Part one of today's Advent of Code puzzle."""
+    """Find the maximum signal strength after creating a feedback loop with the amps."""
     run_phase = functools.partial(run_phase_configuration, data=data, setup=_setup_apps_part_two)
     with concurrent.futures.ProcessPoolExecutor() as executor:
         signal_strength = executor.map(run_phase, itertools.permutations(range(5, 10), 5))
 
-    return(max(signal_strength))
+    return max(signal_strength)
 
 
-def main(data: List[str]) -> Tuple[int]:
+def main(data: List[str]) -> Tuple[int, int]:
     """The main function taking care of parsing the input data and running the solutions."""
     data = [int(number) for number in data[0].split(",")]
 
