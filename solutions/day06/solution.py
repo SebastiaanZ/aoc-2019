@@ -63,7 +63,7 @@ class OrbitalMap:
     def add_orbit(self, parent, child):
         """Register an orbit of `child` around `parent`, creating the nodes if they are new."""
         parent = self.nodes.setdefault(parent, Node(name=parent))
-        child = self.nodes.setdefault(child, Node(name=parent))
+        child = self.nodes.setdefault(child, Node(name=child))
         child.parent = parent
 
 
@@ -83,7 +83,7 @@ def part_two(orbital_map) -> int:
     return (me.depth - common_ancestor.depth) + (santa.depth - common_ancestor.depth) - 2
 
 
-def main(data: List[str]) -> Tuple[int]:
+def main(data: List[str]) -> Tuple[int, int]:
     """Run my solution to day 6 of the Advent of Code."""
     orbital_map = OrbitalMap()
     for orbit in data:

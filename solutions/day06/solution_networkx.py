@@ -13,7 +13,7 @@ def part_two(orbits: nx.Graph) -> int:
     return nx.shortest_path_length(orbits, source="YOU", target="SAN") - 2
 
 
-def main(data: List[str]) -> Tuple[int]:
+def main(data: List[str]) -> Tuple[int, int]:
     """Run my solution to day 6 of the Advent of Code."""
     orbits = nx.Graph()
     orbits.add_edges_from([number.split(")") for number in data])
