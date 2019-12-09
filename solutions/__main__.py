@@ -90,8 +90,9 @@ if args.solve:
         if args.timeit:
             execution_times = []
             for _ in range(args.timeit):
+                data = get_data(day=args.day)
                 time_prior = timeit.default_timer()
-                answer_one, answer_two = day.main(get_data(day=args.day))
+                answer_one, answer_two = day.main(data)
                 time_after = timeit.default_timer()
                 execution_times.append(time_after - time_prior)
 
@@ -101,8 +102,9 @@ if args.solve:
             average_time = sum(execution_times) / len(execution_times)
             print(f"Average running time: {average_time:.6f} seconds ({args.timeit} iterations)")
         else:
+            data = get_data(day=args.day)
             time_prior = timeit.default_timer()
-            answer_one, answer_two = day.main(get_data(day=args.day))
+            answer_one, answer_two = day.main(data)
             time_after = timeit.default_timer()
             print(f"Answer to part one: {answer_one}")
             print(f"Answer to part two: {answer_two}")
